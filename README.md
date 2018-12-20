@@ -4,8 +4,6 @@
 
 ## :book: 技术栈
 
-<img align="right" src="http://oph264zoo.bkt.clouddn.com/17-9-15/96325894.jpg"/>
-
 【前端】
 - **Vue**
 - **Vue-router**
