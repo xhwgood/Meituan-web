@@ -29,9 +29,6 @@
             <dd href="#">故宫博物院</dd>
             <dd href="#">故宫博物院</dd>
             <dd href="#">故宫博物院</dd>
-            <!-- <dd
-              v-for="(item,idx) in $store.state.home.hotPlace.slice(0,5)"
-              :key="idx">{{ item.name }}</dd> -->
           </dl>
           <dl
             v-if="isSearchList"
