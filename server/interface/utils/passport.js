@@ -14,16 +14,16 @@ passport.use(new LocalStrategy(async function (username, password, done) {
       return done(null, false, '密码错误')
     }
   } else {
-    return done(null,false,'用户不存在')
+    return done(null, false, '用户不存在')
   }
 }))
-
-passport.serializeUser(function(user,done){
-    done(null,user)
+// 序列化
+passport.serializeUser(function (user, done) {
+  done(null, user)
 })
 
-passport.deserializeUser(function(user,done){
-    return done(null,user)
+passport.deserializeUser(function (user, done) {
+  return done(null, user)
 })
 
 export default passport

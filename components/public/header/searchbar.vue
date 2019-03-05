@@ -25,10 +25,12 @@
             v-if="isHotPlace"
             class="hotPlace">
             <dt>热门搜索</dt>
-            <dd href="#">故宫博物院</dd>
-            <dd href="#">故宫博物院</dd>
-            <dd href="#">故宫博物院</dd>
-            <dd href="#">故宫博物院</dd>
+            <dd href="#">天涯海角</dd>
+            <dd href="#">三亚南山文化旅游区</dd>
+            <dd href="#">蜈支洲岛</dd>
+            <dd href="#">鹿回头风景区</dd>
+            <dd href="#">亚龙湾热带天堂森林公园</dd>
+            <dd href="#">三亚千古情</dd>
           </dl>
           <dl
             v-if="isSearchList"
@@ -39,10 +41,10 @@
           </dl>
         </div>
         <p class="suggest">
-          <a href="#">故宫博物院</a>
-          <a href="#">故宫博物院</a>
-          <a href="#">故宫博物院</a>
-          <a href="#">故宫博物院</a>
+          <a href="#">天涯海角</a>
+          <a href="#">三亚南山文化旅游区</a>
+          <a href="#">蜈支洲岛</a>
+          <a href="#">鹿回头风景区</a>
         </p>
         <ul class="nav">
           <li>

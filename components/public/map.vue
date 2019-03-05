@@ -26,7 +26,7 @@ export default {
   data() {
     return {
       id: `map`,
-      key: '0dbc0dfd7c775f2a927174493eab8220'
+      key: '26ffa536179d5a681275af1524c28caa'
     }
   },
   watch: {
@@ -38,7 +38,7 @@ export default {
   mounted() {
     let self = this
     self.id = `map${Math.random().toString().slice(4, 6)}`
-
+    // 自定义回调函数名 onmaploaded
     window.onmaploaded = () => {
       let map = new window.AMap.Map(self.id, {
         resizeEnable: true,
