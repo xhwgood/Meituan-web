@@ -37,12 +37,6 @@
             <dd>国内机票</dd>
             <dd>国际机票</dd>
             <dd>国内机票</dd>
-            <dd>国际机票</dd>
-            <dd>国内机票</dd>
-            <dd>国际机票</dd>
-            <dd>国内机票</dd>
-            <dd>国际机票</dd>
-            <dd>国内机票</dd>
           </dl>
           <dl class="foot">
             <dt>吃美食</dt>

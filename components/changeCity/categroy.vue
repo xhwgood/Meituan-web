@@ -43,11 +43,11 @@ export default {
       city.forEach(item => {
         p = pyjs.getFullChars(item.name).toLocaleLowerCase().slice(0,1)
         c = p.charCodeAt(0)
-        if(c > 96 && c < 123) { // a~z
+        if(c > 96 && c < 123) {
           if(!d[p]){ //如果临时对象不在数组里，则声明数组
             d[p] = []
           }
-          d[p].push(item.name)
+          if(item.name != '县' && item.name != '自治区直辖县级行政区划' && item.name.indexOf('省') == -1) d[p].push(item.name.replace(/(市|(蒙古|土家族苗族|藏族|傣族景颇族|回族|白族|藏族羌族|彝族|哈尼族|蒙古族|傈僳族|布依族苗族|苗族侗族|壮族苗族|傣族|哈萨克|朝鲜族|蒙古族藏族|哈尼族彝族|)自治州)$/g,''))
         }
       })
       for(let [k, v] of Object.entries(d)){

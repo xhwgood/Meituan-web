@@ -12,7 +12,7 @@ let router = new Router({
 
 let Store = new Redis().client
 
-router.post('/singup', async (ctx) => {
+router.post('/signup', async (ctx) => {
   const {
     username,
     password,
@@ -20,13 +20,14 @@ router.post('/singup', async (ctx) => {
     code
   } = ctx.request.body;
   if (code) {
+    // hget 表示 hash
     const saveCode = await Store.hget(`nodemail:${username}`, 'code')
     const saveExpire = await Store.hget(`nodemail:${username}`, 'expire')
     if (code === saveCode) {
       if (new Date().getTime() - saveExpire > 0) {
         ctx.body = {
           code: -1,
-          msg: '验证码已过期，请重试'
+          msg: '验证码已过期，请重新获取'
         }
         return false
       }
@@ -48,7 +49,7 @@ router.post('/singup', async (ctx) => {
   if (user.length) {
     ctx.body = {
       code: -1,
-      msg: '此用户名已被注册'
+      msg: '用户名已存在'
     }
     return
   }
@@ -82,8 +83,9 @@ router.post('/singup', async (ctx) => {
   }
 })
 
-router.post('/singin', async (ctx, next) => {
-  return Passport.authenticate('local', function (err, user, info, status) { //status如何使用？
+router.post('/signin', async (ctx, next) => {
+  // 调用策略
+  return Passport.authenticate('local', function (err, user, info, status) {
     if (err) {
       ctx.body = {
         code: -1,
@@ -94,8 +96,7 @@ router.post('/singin', async (ctx, next) => {
         ctx.body = {
           code: 0,
           msg: '登录成功',
-          user,
-          status
+          user
         }
         return ctx.login(user)
       } else {
@@ -107,19 +108,21 @@ router.post('/singin', async (ctx, next) => {
     }
   })(ctx, next)
 })
-//文件里有两个函数的参数可以删除
+
 router.post('/verify', async (ctx, next) => {
   let username = ctx.request.body.username
   const saveExpire = await Store.hget(`nodemail:${username}`, 'expire')
-  if (saveExpire && new Date().getTime() - saveExpire < 0) {
+  if (new Date().getTime() - saveExpire < 0) {
     ctx.body = {
       code: -1,
-      msg: '操作过于频繁，请1分钟后重试'
+      msg: '验证请求过于频繁，请1分钟后再试'
     }
     return false
   }
   let transporter = nodeMailer.createTransport({
-    service:'qq',
+    host: Email.smtp.host,
+    port: 587,
+    secure: false,
     auth: {
       user: Email.smtp.user,
       pass: Email.smtp.pass
@@ -135,7 +138,7 @@ router.post('/verify', async (ctx, next) => {
     from: `"认证邮件"<${Email.smtp.user}>`,
     to: ko.email,
     subject: '《慕课网高仿美团网Vue全栈课程》验证码',
-    html: `验证码是${ko.code}`
+    html: `验证码是 ${ko.code}`
   }
   await transporter.sendMail(mailOptions, (error, info) => {
     if (error) {
@@ -146,12 +149,11 @@ router.post('/verify', async (ctx, next) => {
   })
   ctx.body = {
     code: 0,
-    // status: 200,
-    msg: '验证码已发送，可能会有延时，有效期一分钟'
+    msg: '验证码已发送，可能会有延时，有效期1分钟'
   }
   next();
 })
-//这里有两个参数可以删除
+
 router.get('/exit', async (ctx, next) => {
   await ctx.logout()
   if (!ctx.isAuthenticated()) {

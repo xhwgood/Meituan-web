@@ -3,6 +3,7 @@ import LocalStrategy from 'passport-local'
 import UserModel from '../../dbs/models/users'
 
 passport.use(new LocalStrategy(async function (username, password, done) {
+  // 可以精简
   let where = {
     username
   };
@@ -17,7 +18,7 @@ passport.use(new LocalStrategy(async function (username, password, done) {
     return done(null, false, '用户不存在')
   }
 }))
-// 序列化
+// 用户每次进入都从session验证
 passport.serializeUser(function (user, done) {
   done(null, user)
 })

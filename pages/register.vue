@@ -2,15 +2,17 @@
   <div class="page-register">
     <article class="header">
       <header>
-        <a 
+        <a
           href="/"
-          class="site-logo"/>
+          class="site-logo"
+        />
         <span class="login">
           <em class="bold">已有美团帐号？</em>
           <a href="/login">
             <el-button
               type="primary"
-              size="small">登录</el-button>
+              size="small"
+            >登录</el-button>
           </a>
         </span>
       </header>
@@ -25,52 +27,61 @@
       >
         <el-form-item
           label="登录名"
-          prop="name">
-          <el-input
-            v-model="ruleForm.name"/>
+          prop="name"
+        >
+          <el-input v-model="ruleForm.name" />
         </el-form-item>
         <el-form-item
           label="邮箱"
-          prop="email">
-          <el-input
-            v-model="ruleForm.email"/>
+          prop="email"
+        >
+          <el-input v-model="ruleForm.email" />
           <el-button
             size="mini"
             round
-            @click="sendMsg">发送验证码</el-button>
+            @click="sendMsg"
+          >发送验证码</el-button>
           <span class="status">{{ statusMsg }}</span>
         </el-form-item>
         <el-form-item
           label="验证码"
-          prop="code">
+          prop="code"
+        >
           <el-input
             v-model="ruleForm.code"
-            maxlength="4"/>
+            maxlength="4"
+          />
         </el-form-item>
         <el-form-item
           label="密码"
-          prop="pwd">
+          prop="pwd"
+        >
           <el-input
             v-model="ruleForm.pwd"
-            type="password"/>
+            type="password"
+          />
         </el-form-item>
         <el-form-item
           label="确认密码"
-          prop="cpwd">
+          prop="cpwd"
+        >
           <el-input
             v-model="ruleForm.cpwd"
-            type="password"/>
+            type="password"
+          />
         </el-form-item>
         <el-form-item>
           <el-button
             type="primary"
-            @click="register">同意以下协议并注册</el-button>
+            @click="register"
+          >同意以下协议并注册</el-button>
           <div class="error">{{ error }}</div>
         </el-form-item>
         <el-form-item>
           <a
             href="http://www.meituan.com/about/terms"
-            target="_blank">《美团网用户协议》</a>
+            target="_blank"
+          >《美团网用户协议》</a>
         </el-form-item>
       </el-form>
     </section>
@@ -78,7 +89,7 @@
 </template>
 
 <script>
-import CryptoJS from 'crypto-js'
+import CryptoJS from "crypto-js";
 export default {
   data() {
     return {
@@ -92,48 +103,39 @@ export default {
         email: ""
       },
       rules: {
-        name: [
-          {
-            required: true,
-            type: "string",
-            message: "请输入登录名",
-            trigger: "blur"
-          }
-        ],
-        email: [
-          {
-            required: true,
-            type: "email",
-            message: "请输入邮箱",
-            trigger: "blur"
-          }
-        ],
-        pwd: [
-          {
-            required: true,
-            message: "请输入密码",
-            trigger: "blur"
-          }
-        ],
-        cpwd: [
-          {
-            required: true,
-            message: "请确认密码",
-            trigger: "blur"
+        name: [{
+          required: true,
+          type: "string",
+          message: "请输入登录名",
+          trigger: "blur"
+        }],
+        email: [{
+          required: true,
+          type: "email",
+          message: "请输入邮箱",
+          trigger: "blur"
+        }],
+        pwd: [{
+          required: true,
+          message: "请输入密码",
+          trigger: "blur"
+        }],
+        cpwd: [{
+          required: true,
+          message: "请确认密码",
+          trigger: "blur"
+        },{
+          validator: (rule, value, callback) => {
+            if (value === "") {
+              callback(new Error("请再次输入密码"));
+            } else if (value !== this.ruleForm.pwd) {
+              callback(new Error("两次输入的密码不一致"));
+            } else {
+              callback();
+            }
           },
-          {
-            validator: (rule, value, callback) => {
-              if (value === "") {
-                callback(new Error("请再次输入密码"));
-              } else if (value !== this.ruleForm.pwd) {
-                callback(new Error("两次输入的密码不一致"));
-              } else {
-                callback();
-              }
-            },
-            trigger: "blur"
-          }
-        ]
+          trigger: "blur"
+        }]
       }
     };
   },
@@ -149,60 +151,63 @@ export default {
       this.$refs["ruleForm"].validateField("name", valid => {
         namePass = valid;
       });
-      self.statusMsg = ""; //可能会显示别的错误
+      self.statusMsg = ""; //可能会显示别的错误，需清空
       if (namePass) {
         return false;
       }
-      this.$refs["ruleForm"].validateField('email', valid => {
+      this.$refs["ruleForm"].validateField("email", valid => {
         emailPass = valid;
       });
+      //有值表示错误
       if (!namePass && !emailPass) {
-        //有值表示错误
         self.$axios.post("/users/verify", {
-          username: encodeURIComponent(self.ruleForm.name),
-          email:self.ruleForm.email
-        }).then(({status,data})=>{
-          if(status === 200 && data && data.code===0){
-            let count = 60;
-            self.statusMsg=`验证码已发送，剩余${count--}秒可再次发送`
-            self.timerid=setInterval(function(){
-              self.statusMsg=`验证码已发送，剩余${count--}秒可再次发送`
-              if(count===0){
-                clearInterval(self.timerid)
-              }
-            },1000)
-          }else{
-            self.statusMsg=data.msg
+            username: encodeURIComponent(self.ruleForm.name),
+            email: self.ruleForm.email
+          }).then(({ status, data }) => {
+            if (status === 200 && data && data.code === 0) {
+              let count = 60;
+              self.statusMsg = `验证码已发送，剩余${count--}秒可再次发送`;
+              self.timerid = setInterval(function() {
+                self.statusMsg = `验证码已发送，剩余${count--}秒可再次发送`;
+                if (count === 0) {
+                  clearInterval(self.timerid);
+                self.statusMsg = ``;
+                }
+              }, 1000);
+            } else {
+              self.statusMsg = data.msg;
+            }
           }
-        })
+        );
       }
     },
     register: function() {
-      let self=this;
-      this.$refs['ruleForm'].validate((valid)=>{
-        if(valid){
-          self.$axios.post('/users/signup',{
-            username:window.encodeURIComponent(self.ruleForm.name),
-            password:CryptoJS.MD5(self.ruleForm.pwd).toString(),
-            email:self.ruleForm.email,
-            code:self.ruleForm.code
-          }).then(({status,data})=>{
-            if(status===200){
-              if(data&&data.code===0){
-                location.href='/login'
-              }else{
-                self.error=data.msg
+      let self = this;
+      this.$refs["ruleForm"].validate(valid => {
+        if (valid) {
+          self.$axios.post("/users/signup", {
+              username: window.encodeURIComponent(self.ruleForm.name),
+              password: CryptoJS.MD5(self.ruleForm.pwd).toString(),
+              email: self.ruleForm.email,
+              code: self.ruleForm.code
+            }).then(({ status, data }) => {
+              if (status === 200) {
+                if (data && data.code === 0) {
+                  location.href = "/login";
+                } else {
+                  self.error = data.msg;
+                }
+              } else {
+                self.error = `服务器出错，错误码：${status}`;
               }
-            }else{
-              self.error=`服务器出错，错误码：${status}`
+              //清空error信息
+              setTimeout(function() {
+                self.error = "";
+              }, 1500);
             }
-            //清空error信息
-            setTimeout(function(){
-              self.error=''
-            },1500)
-          })
+          );
         }
-      })
+      });
     }
   }
 };

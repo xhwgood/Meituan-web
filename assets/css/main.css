@@ -60,3 +60,11 @@ a:visited {
 .page-leave-active {
   opacity: 0
 }
+
+.username{
+  color: #31BBAC
+}
+
+.exit{
+  color: #999
+}

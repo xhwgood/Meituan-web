@@ -13,10 +13,8 @@ const store = () => new Vuex.Store({
   actions: {
     async nuxtServerInit({
       commit
-    }, {
-      req, //参数未读取，可删除？
-      app
-    }) {
+    }, { req, app }) {
+
       const {
         status,
         data: {
@@ -34,23 +32,20 @@ const store = () => new Vuex.Store({
 
       const {
         status: status2,
-        data: {
-          menu
-        }
+        data: { menu }
       } = await app.$axios.get('geo/menu')
       commit('home/setMenu', status2 === 200 ? menu : [])
 
       const {
         status: status3,
-        data: {
-          result
-        }
+        data: { result }
       } = await app.$axios.get('/search/hotPlace', {
         params: {
-          city: app.store.state.geo.position.city        // 值为 null，无法去掉“市”
+          city: app.store.state.geo.position.city.replace('市', '')
         }
       })
       commit('home/setHotPlace', status3 === 200 ? result : [])
+
     }
   }
 })

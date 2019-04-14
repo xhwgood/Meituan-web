@@ -1,6 +1,4 @@
-const state = () => ({
-  position: {}
-})
+const state = () => ({ position: {} })
 
 const mutations = {
   setPosition(state, val) {

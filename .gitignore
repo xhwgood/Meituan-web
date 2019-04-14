@@ -79,3 +79,6 @@ dist
 
 # IDE
 .idea
+# 自配置
+sign.js
+server/dbs/config.js

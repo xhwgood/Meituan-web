@@ -4,13 +4,13 @@
       <dd
         v-for="item in nav"
         :key="item.name"
-        :class="[item.name,item.acitve?'s-nav-active':'']"
+        :class="[item.name, item.acitve ? 's-nav-active' : '']"
         @click="navSelect"
       >{{ item.txt }}</dd>
     </dl>
     <ul>
       <Item
-        v-for="(item,idx) in list"
+        v-for="(item, idx) in list"
         :key="idx"
         :meta="item"
       />
