@@ -73,7 +73,8 @@ module.exports = {
           exclude: /(node_modules)/
         })
       }
-    }
+    },
     // cache: false
+    publicPath: '/dist/'
   }
 }
