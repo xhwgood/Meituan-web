@@ -64,7 +64,7 @@
 
 ``` bash
 # clone the repo into your disk.
-$ git clone https://github.com/Ongve/Meituan-web
+$ git clone https://github.com/xhwgood/Meituan-web
 
 # install dependencies
 $ npm install
