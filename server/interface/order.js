@@ -9,17 +9,13 @@ let router = new Router({
 })
 
 router.post('/createOrder', async ctx => {
-  let {
-    id,
-    price,
-    count
-  } = ctx.request.body
+  let { id, price, count } = ctx.request.body
   let time = Date()
   let orderID = md5(Math.random() * 1000 + time).toString()
   if (!ctx.isAuthenticated()) {
     ctx.body = {
       code: -1,
-      msg: "请登录"
+      msg: '请登录'
     }
   } else {
     let findCart = await Cart.findOne({

@@ -1,9 +1,6 @@
 const Koa = require('koa')
 const consola = require('consola')
-const {
-  Nuxt,
-  Builder
-} = require('nuxt')
+const { Nuxt, Builder } = require('nuxt')
 
 import mongoose from 'mongoose'
 import bodyParser from 'koa-bodyparser'
@@ -25,14 +22,18 @@ const port = process.env.PORT || 3000
 
 app.keys = ['mt', 'keyskeys']
 app.proxy = true
-app.use(session({
-  key: 'mt',
-  prefix: 'mt:uid',
-  store: new Redis()
-}))
-app.use(bodyParser({
-  extendTypes: ['json', 'form', 'text']
-}))
+app.use(
+  session({
+    key: 'mt',
+    prefix: 'mt:uid',
+    store: new Redis()
+  })
+)
+app.use(
+  bodyParser({
+    extendTypes: ['json', 'form', 'text']
+  })
+)
 app.use(json())
 
 mongoose.connect(dbConfig.dbs, {

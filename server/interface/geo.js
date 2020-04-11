@@ -9,13 +9,10 @@ let router = new Router({
   prefix: '/geo'
 })
 
-router.get('/getPosition', async (ctx) => {
+router.get('/getPosition', async ctx => {
   let {
     status,
-    data: {
-      province,
-      city
-    }
+    data: { province, city }
   } = await axios.get(`http://cp-tools.cn/geo/getPosition?sign=${sign}`)
   if (status === 200) {
     ctx.body = {
@@ -30,7 +27,7 @@ router.get('/getPosition', async (ctx) => {
   }
 })
 
-router.get('/province', async (ctx) => {
+router.get('/province', async ctx => {
   // let province = await Province.find()
   // ctx.body = {
   //   province: province.map(item => {
@@ -42,16 +39,14 @@ router.get('/province', async (ctx) => {
   // }
   let {
     status,
-    data: {
-      province
-    }
+    data: { province }
   } = await axios.get(`http://cp-tools.cn/geo/province?sign=${sign}`)
   ctx.body = {
     province: status === 200 ? province : []
   }
 })
 
-router.get('/province/:id', async (ctx) => {
+router.get('/province/:id', async ctx => {
   // let city = await City.findOne({
   //   id: ctx.params.id
   // })
@@ -69,7 +64,9 @@ router.get('/province/:id', async (ctx) => {
   let {
     status,
     data: { city }
-  } = await axios.get(`http://cp-tools.cn/geo/province/${ctx.params.id}?sign=${sign}`)
+  } = await axios.get(
+    `http://cp-tools.cn/geo/province/${ctx.params.id}?sign=${sign}`
+  )
   if (status === 200) {
     ctx.body = {
       city
@@ -81,7 +78,7 @@ router.get('/province/:id', async (ctx) => {
   }
 })
 
-router.get('/city', async (ctx) => {
+router.get('/city', async ctx => {
   // let city = []
   // let result = await City.find()
   // result.forEach(item => {
@@ -113,7 +110,7 @@ router.get('/city', async (ctx) => {
   }
 })
 
-router.get('/hotCity', async (ctx) => {
+router.get('/hotCity', async ctx => {
   let list = [
     '北京市',
     '上海市',
@@ -129,18 +126,20 @@ router.get('/hotCity', async (ctx) => {
   let result = await City.find()
   let nList = []
   result.forEach(item => {
-    nList = nList.concat(item.value.filter(k => list.includes(k.name) || list.includes(k.province)))
+    nList = nList.concat(
+      item.value.filter(k => list.includes(k.name) || list.includes(k.province))
+    )
   })
   ctx.body = {
     hots: nList
   }
 })
 
-router.get('/menu', async (ctx) => {
+router.get('/menu', async ctx => {
   const result = await Menu.findOne()
   ctx.body = {
     menu: result.menu
   }
 })
 
-export default router;
+export default router

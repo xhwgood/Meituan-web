@@ -2,14 +2,14 @@
   <div class="page-index">
     <el-row>
       <el-col :span="5">
-        <emenu/>
+        <emenu />
       </el-col>
       <el-col :span="19">
-        <elife/>
+        <elife />
       </el-col>
     </el-row>
     <el-row :span="24">
-      <eartistic/>
+      <eartistic />
     </el-row>
   </div>
 </template>
@@ -28,5 +28,5 @@ export default {
 </script>
 
 <style lang="scss">
-  @import "@/assets/css/index/index.scss";
+@import '@/assets/css/index/index.scss';
 </style>

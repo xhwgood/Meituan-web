@@ -7,7 +7,7 @@ let router = new Router({
   prefix: '/categroy'
 })
 
-router.get('/crumbs', async (ctx) => {
+router.get('/crumbs', async ctx => {
   // let result = await Categroy.findOne({
   //   city: ctx.query.city.replace('市', '') || '三亚'
   // })
@@ -24,10 +24,7 @@ router.get('/crumbs', async (ctx) => {
   // }
   let {
     status,
-    data: {
-      areas,
-      types
-    }
+    data: { areas, types }
   } = await axios.get('http://cp-tools.cn/categroy/crumbs', {
     params: {
       city: ctx.query.city.replace('市', '') || '北京',
@@ -40,4 +37,4 @@ router.get('/crumbs', async (ctx) => {
   }
 })
 
-export default router;
+export default router

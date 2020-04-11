@@ -12,13 +12,8 @@ let router = new Router({
 
 let Store = new Redis().client
 
-router.post('/signup', async (ctx) => {
-  const {
-    username,
-    password,
-    email,
-    code
-  } = ctx.request.body;
+router.post('/signup', async ctx => {
+  const { username, password, email, code } = ctx.request.body
   if (code) {
     // hget 表示 hash
     const saveCode = await Store.hget(`nodemail:${username}`, 'code')
@@ -144,14 +139,22 @@ router.post('/verify', async (ctx, next) => {
     if (error) {
       return console.log(error)
     } else {
-      Store.hmset(`nodemail:${ko.user}`, 'code', ko.code, 'expire', ko.expire, 'email', ko.email)
+      Store.hmset(
+        `nodemail:${ko.user}`,
+        'code',
+        ko.code,
+        'expire',
+        ko.expire,
+        'email',
+        ko.email
+      )
     }
   })
   ctx.body = {
     code: 0,
     msg: '验证码已发送，可能会有延时，有效期1分钟'
   }
-  next();
+  next()
 })
 
 router.get('/exit', async (ctx, next) => {
@@ -167,12 +170,9 @@ router.get('/exit', async (ctx, next) => {
   }
 })
 
-router.get('/getUser', async (ctx) => {
+router.get('/getUser', async ctx => {
   if (ctx.isAuthenticated()) {
-    const {
-      username,
-      email
-    } = ctx.session.passport.user
+    const { username, email } = ctx.session.passport.user
     ctx.body = {
       user: username,
       email

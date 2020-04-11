@@ -10,16 +10,13 @@ router.post('/create', async ctx => {
   if (!ctx.isAuthenticated()) {
     ctx.body = {
       code: -1,
-      msg: "请登录"
+      msg: '请登录'
     }
   } else {
     let time = Date()
     let cartNo = md5(Math.random() * 1000 + time).toString()
     let {
-      params: {
-        id,
-        detail
-      }
+      params: { id, detail }
     } = ctx.request.body
     let cart = new Cart({
       cartNo,
@@ -45,9 +42,7 @@ router.post('/create', async ctx => {
 })
 
 router.post('/getCart', async ctx => {
-  let {
-    id
-  } = ctx.request.body
+  let { id } = ctx.request.body
   try {
     let result = await Cart.findOne({
       cartNo: id
